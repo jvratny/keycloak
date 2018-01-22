@@ -130,16 +130,22 @@
                     </security>
                 </datasource>
                 <datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true" use-java-context="true">
-                    <connection-url>jdbc:h2:${jboss.server.data.dir}/keycloak;AUTO_SERVER=TRUE</connection-url>
-                    <driver>h2</driver>
+                    <connection-url>jdbc:postgresql://ew-sit-idm-postgress.postgres.database.azure.com:5432/ewidm</connection-url>
+                    <driver>postgresql</driver>
+                    <pool>
+                        <max-pool-size>20</max-pool-size>
+                    </pool>
                     <security>
-                        <user-name>sa</user-name>
-                        <password>sa</password>
+                        <user-name>ew_admin@ew-sit-idm-posgress</user-name>
+                        <password>e1rV00MuuEc1+13pyck1qah/VsOWixFOqFcrABRuptP7aaJd+4Ldv3yb7xjpnwSm</password>
                     </security>
                 </datasource>
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+                    </driver>
+                    <driver name="postgresql" module="org.postgresql">
+                        <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
                     </driver>
                 </drivers>
             </datasources>
