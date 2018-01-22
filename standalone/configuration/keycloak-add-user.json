@@ -1,0 +1,15 @@
+[ {
+  "realm" : "master",
+  "users" : [ {
+    "username" : "ew-admin",
+    "enabled" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "hashedSaltedValue" : "aZ1SZ2HO0RYgj5+5k52oukOnrn9F9d5drY4OEhZVBL2eRK5ies83NEK5YttlAsaFK64atWZMwFZa4fZAdQtPzw==",
+      "salt" : "TkiFaCYmD66s4OWIZaU2XA==",
+      "hashIterations" : 100000,
+      "algorithm" : "pbkdf2-sha256"
+    } ],
+    "realmRoles" : [ "admin" ]
+  } ]
+} ]
