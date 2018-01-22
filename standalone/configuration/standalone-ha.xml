@@ -314,10 +314,10 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:jgroups:5.0">
             <channels default="ee">
-                <channel name="ee" stack="udp" cluster="ejb"/>
+                <channel name="ee" stack="tcp" cluster="ejb"/>
             </channels>
             <stacks default="tcp">
-                <stack name="udp">
+                <!-- <stack name="udp">
                     <transport type="UDP" socket-binding="jgroups-udp"/>
                     <protocol type="PING"/>
                     <protocol type="MERGE3"/>
@@ -331,7 +331,7 @@
                     <protocol type="UFC"/>
                     <protocol type="MFC"/>
                     <protocol type="FRAG2"/>
-                </stack>
+                </stack> -->
                 <stack name="tcp">
                     <transport type="TCP" socket-binding="jgroups-tcp"/>
                     <!-- <socket-protocol type="MPING" socket-binding="jgroups-mping"/> -->
