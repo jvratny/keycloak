@@ -16,7 +16,3 @@ start() {
     
     $KEYCLOAK_HOME/bin/standalone.sh -b $IP_ADDRESS -bprivate $IP_ADDRESS --server-config=standalone-ha.xml
 }
-
-stop() { }
-
-restart() { }
