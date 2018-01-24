@@ -10,9 +10,5 @@
 
 KEYCLOAK_HOME="/home/ew_admin/bin/keycloak/"
 IP_ADDRESS=`ip -f inet a show eth0 | grep inet | awk '{ print $2 }' | cut -d/ -f1`
-
-start() {
-    echo "Starting keycloak..."
     
-    $KEYCLOAK_HOME/bin/standalone.sh -b $IP_ADDRESS -bprivate $IP_ADDRESS --server-config=standalone-ha.xml
-}
+nohup $KEYCLOAK_HOME/bin/standalone.sh -b $IP_ADDRESS -bprivate $IP_ADDRESS --server-config=standalone-ha.xml &
