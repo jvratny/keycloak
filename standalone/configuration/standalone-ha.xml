@@ -132,26 +132,17 @@
                     </security>
                 </datasource>
                 <datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true">
-                    <connection-url>jdbc:mysql://wag-sit-idm-mysql.mysql.database.azure.com:3306/wag_sit_idm?useSSL=false&amp;characterEncoding=UTF-8</connection-url>
-                    <driver>mysql</driver>
+                    <connection-url>jdbc:postgresql://wag-sit-idm-postgres.postgres.database.azure.com:5432/idm</connection-url>
+                    <driver>postgresql</driver>
                     <pool>
-                        <min-pool-size>5</min-pool-size>
-                        <max-pool-size>15</max-pool-size>
+                        <max-pool-size>20</max-pool-size>
                     </pool>
                     <security>
-                        <user-name>ew_admin@wag-sit-idm-mysql</user-name>
+                        <user-name>ew_admin@wag-sit-idm-postgres</user-name>
                         <password>e1rV00MuuEc1+13pyck1qah/VsOWixFOqFcrABRuptP7aaJd+4Ldv3yb7xjpnwSm</password>
                     </security>
-                    <validation>
-                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker" />
-                        <validate-on-match>true</validate-on-match>
-                        <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter" />
-                    </validation>
                 </datasource>
                 <drivers>
-                    <driver name="mysql" module="com.mysql">
-                        <driver-class>com.mysql.jdbc.Driver</driver-class>
-                    </driver>
                     <driver name="postgresql" module="org.postgresql">
                         <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
                     </driver>
