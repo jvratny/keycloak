@@ -132,17 +132,26 @@
                     </security>
                 </datasource>
                 <datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true" use-java-context="true">
-                    <connection-url>jdbc:postgresql://ew-sit-idm-postgress.postgres.database.azure.com:5432/ewsit</connection-url>
-                    <driver>postgresql</driver>
+                    <connection-url>jdbc:mysql://wag-sit-idm-mysql.mysql.database.azure.com:3306/wag_sit_idm?useSSL=false&amp;characterEncoding=UTF-8</connection-url>
+                    <driver>mysql</driver>
                     <pool>
-                        <max-pool-size>20</max-pool-size>
+                        <min-pool-size>5</min-pool-size>
+                        <max-pool-size>15</max-pool-size>
                     </pool>
                     <security>
-                        <user-name>ew_admin@ew-sit-idm-postgress</user-name>
+                        <user-name>ew_admin@wag-sit-idm-mysql</user-name>
                         <password>e1rV00MuuEc1+13pyck1qah/VsOWixFOqFcrABRuptP7aaJd+4Ldv3yb7xjpnwSm</password>
                     </security>
+                    <validation>
+                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker" />
+                        <validate-on-match>true</validate-on-match>
+                        <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter" />
+                    </validation>
                 </datasource>
                 <drivers>
+                    <driver name="mysql" module="com.mysql">
+                        <driver-class>com.mysql.jdbc.Driver</driver-class>
+                    </driver>
                     <driver name="postgresql" module="org.postgresql">
                         <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
                     </driver>
@@ -327,10 +336,10 @@
                     <transport type="TCP" socket-binding="jgroups-tcp"/>
         <protocol type="azure.AZURE_PING">
             <property name="storage_account_name">
-                ewsitidmstorage
+                wagsitidmapp
             </property>
             <property name="storage_access_key">
-                4zr4ZdimvwS9Sbzw6IGJ3axmxE4WpV8sQVfmQy8Oi7pU8gBLnJp6T422ps3aqxYU8Eep+xXEkgvyztNvbe4g/A==
+                lWSWlV+hxxIaoc90XDT31W36/XfJXTA2IpmZSGaPnWURgi209AsiwTbcgjb1Vm5i9+/AAemDPaIL/ouA+wdZlA==
             </property>
             <property name="container">
                 keycloak-ping
@@ -355,10 +364,10 @@
         </transport>
         <protocol type="azure.AZURE_PING">
             <property name="storage_account_name">
-                ewsitidmstorage
+                wagsitidmapp
             </property>
             <property name="storage_access_key">
-                4zr4ZdimvwS9Sbzw6IGJ3axmxE4WpV8sQVfmQy8Oi7pU8gBLnJp6T422ps3aqxYU8Eep+xXEkgvyztNvbe4g/A==
+                lWSWlV+hxxIaoc90XDT31W36/XfJXTA2IpmZSGaPnWURgi209AsiwTbcgjb1Vm5i9+/AAemDPaIL/ouA+wdZlA==
             </property>
             <property name="container">
                 keycloak-ping
