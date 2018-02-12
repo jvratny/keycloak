@@ -1,1 +1,1 @@
-@reboot root nohup /home/ew_admin/bin/keycloak/bin/standalone.sh -b `ip -f inet a show eth0 | grep inet | awk '{ print $2 }' | cut -d/ -f1` -bprivate `ip -f inet a show eth0 | grep inet | awk '{ print $2 }' | cut -d/ -f1` --server-config=standalone-ha.xml >> /home/ew_admin/cron.keycloak.log &
+@reboot root nohup /home/ew_admin/bin/keycloak/bin/standalone.sh -b 10.0.0.4 -bprivate 10.0.0.4 --server-config=standalone-ha.xml >> /home/ew_admin/cron.keyclaok.log &
