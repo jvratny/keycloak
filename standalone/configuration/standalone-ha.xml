@@ -327,10 +327,10 @@
                     <transport type="TCP" socket-binding="jgroups-tcp"/>
         <protocol type="azure.AZURE_PING">
             <property name="storage_account_name">
-                wagsitidmapp
+                wagsitidmstorage
             </property>
             <property name="storage_access_key">
-                lWSWlV+hxxIaoc90XDT31W36/XfJXTA2IpmZSGaPnWURgi209AsiwTbcgjb1Vm5i9+/AAemDPaIL/ouA+wdZlA==
+                jMrD5dKr0rV2SU99frHJVY2/EX5wXO1b16jFY6TsPV5QxfKtTjFuQ2n40Fo4zgjVy7r2I28LuC3t1ia1yrQsnw==
             </property>
             <property name="container">
                 keycloak-ping
@@ -355,10 +355,10 @@
         </transport>
         <protocol type="azure.AZURE_PING">
             <property name="storage_account_name">
-                wagsitidmapp
+                wagsitidmstorage
             </property>
             <property name="storage_access_key">
-                lWSWlV+hxxIaoc90XDT31W36/XfJXTA2IpmZSGaPnWURgi209AsiwTbcgjb1Vm5i9+/AAemDPaIL/ouA+wdZlA==
+                jMrD5dKr0rV2SU99frHJVY2/EX5wXO1b16jFY6TsPV5QxfKtTjFuQ2n40Fo4zgjVy7r2I28LuC3t1ia1yrQsnw==
             </property>
             <property name="container">
                 keycloak-ping
