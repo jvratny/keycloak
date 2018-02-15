@@ -131,25 +131,17 @@
                         <password>sa</password>
                     </security>
                 </datasource>
-                <datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true" use-java-context="true">
-                    <connection-url>jdbc:postgresql://ew-sit-idm-postgress.postgres.database.azure.com:5432/ewsit</connection-url>
+                <datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true">
+                    <connection-url>jdbc:postgresql://wag-sit-idm-postgres.postgres.database.azure.com:5432/idm</connection-url>
                     <driver>postgresql</driver>
                     <pool>
                         <max-pool-size>20</max-pool-size>
                     </pool>
                     <security>
-                        <user-name>ew_admin@ew-sit-idm-postgress</user-name>
+                        <user-name>ew_admin@wag-sit-idm-postgres</user-name>
                         <password>e1rV00MuuEc1+13pyck1qah/VsOWixFOqFcrABRuptP7aaJd+4Ldv3yb7xjpnwSm</password>
                     </security>
                 </datasource>
-                <!-- <datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true" use-java-context="true">
-                    <connection-url>jdbc:h2:${jboss.server.data.dir}/keycloak;AUTO_SERVER=TRUE</connection-url>
-                    <driver>h2</driver>
-                    <security>
-                        <user-name>sa</user-name>
-                        <password>sa</password>
-                    </security>
-                </datasource> -->
                 <drivers>
                     <driver name="postgresql" module="org.postgresql">
                         <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
@@ -232,28 +224,28 @@
             <cache-container name="keycloak" jndi-name="infinispan/Keycloak">
                 <transport lock-timeout="60000"/>
                 <local-cache name="realms">
-                    <eviction max-entries="10000" strategy="LRU"/>
+                    <eviction strategy="LRU" max-entries="10000"/>
                 </local-cache>
                 <local-cache name="users">
-                    <eviction max-entries="10000" strategy="LRU"/>
+                    <eviction strategy="LRU" max-entries="10000"/>
                 </local-cache>
+                <local-cache name="authorization">
+                    <eviction strategy="LRU" max-entries="10000"/>
+                </local-cache>
+                <local-cache name="keys">
+                    <eviction strategy="LRU" max-entries="1000"/>
+                    <expiration max-idle="3600000"/>
+                </local-cache>
+                <replicated-cache name="work" mode="SYNC"/>
                 <distributed-cache name="sessions" mode="SYNC" owners="1"/>
                 <distributed-cache name="authenticationSessions" mode="SYNC" owners="1"/>
                 <distributed-cache name="offlineSessions" mode="SYNC" owners="1"/>
                 <distributed-cache name="clientSessions" mode="SYNC" owners="1"/>
                 <distributed-cache name="offlineClientSessions" mode="SYNC" owners="1"/>
                 <distributed-cache name="loginFailures" mode="SYNC" owners="1"/>
-                <local-cache name="authorization">
-                    <eviction max-entries="10000" strategy="LRU"/>
-                </local-cache>
-                <replicated-cache name="work" mode="SYNC"/>
-                <local-cache name="keys">
-                    <eviction max-entries="1000" strategy="LRU"/>
-                    <expiration max-idle="3600000"/>
-                </local-cache>
                 <distributed-cache name="actionTokens" mode="SYNC" owners="2">
-                    <eviction max-entries="-1" strategy="NONE"/>
-                    <expiration max-idle="-1" interval="300000"/>
+                    <eviction strategy="NONE" max-entries="-1"/>
+                    <expiration interval="300000" max-idle="-1"/>
                 </distributed-cache>
             </cache-container>
             <cache-container name="server" aliases="singleton cluster" default-cache="default" module="org.wildfly.clustering.server">
@@ -314,25 +306,10 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:jgroups:5.0">
             <channels default="ee">
-                <channel name="ee" stack="udp" cluster="ejb"/>
+                <channel name="ee" stack="tcp" cluster="ejb"/>
             </channels>
             <stacks>
-                <stack name="udp">
-                    <transport type="UDP" socket-binding="jgroups-udp"/>
-                    <protocol type="PING"/>
-                    <protocol type="MERGE3"/>
-                    <protocol type="FD_SOCK"/>
-                    <protocol type="FD_ALL"/>
-                    <protocol type="VERIFY_SUSPECT"/>
-                    <protocol type="pbcast.NAKACK2"/>
-                    <protocol type="UNICAST3"/>
-                    <protocol type="pbcast.STABLE"/>
-                    <protocol type="pbcast.GMS"/>
-                    <protocol type="UFC"/>
-                    <protocol type="MFC"/>
-                    <protocol type="FRAG2"/>
-                </stack>
-                <stack name="tcp">
+                <!-- <stack name="tcp">
                     <transport type="TCP" socket-binding="jgroups-tcp"/>
                     <socket-protocol type="MPING" socket-binding="jgroups-mping"/>
                     <protocol type="MERGE3"/>
@@ -345,7 +322,66 @@
                     <protocol type="pbcast.GMS"/>
                     <protocol type="MFC"/>
                     <protocol type="FRAG2"/>
-                </stack>
+                </stack> -->
+                   <stack name="tcp">
+                    <transport type="TCP" socket-binding="jgroups-tcp"/>
+        <protocol type="azure.AZURE_PING">
+            <property name="storage_account_name">
+                wagsitidmstorage
+            </property>
+            <property name="storage_access_key">
+                jMrD5dKr0rV2SU99frHJVY2/EX5wXO1b16jFY6TsPV5QxfKtTjFuQ2n40Fo4zgjVy7r2I28LuC3t1ia1yrQsnw==
+            </property>
+            <property name="container">
+                keycloak-ping
+            </property>
+        </protocol>
+                    <protocol type="MERGE3"/>
+                    <protocol type="FD_SOCK"/>
+                    <protocol type="FD_ALL"/>
+                    <protocol type="VERIFY_SUSPECT"/>
+                    <protocol type="pbcast.NAKACK2"/>
+                    <protocol type="UNICAST3"/>
+                    <protocol type="pbcast.STABLE"/>
+                    <protocol type="pbcast.GMS"/>
+                    <protocol type="MFC"/>
+                    <protocol type="FRAG2"/>
+                </stack>             
+    <stack name="udp">
+        <transport type="UDP" socket-binding="jgroups-udp">
+            <property name="ip_mcast">
+                false
+            </property>
+        </transport>
+        <protocol type="azure.AZURE_PING">
+            <property name="storage_account_name">
+                wagsitidmstorage
+            </property>
+            <property name="storage_access_key">
+                jMrD5dKr0rV2SU99frHJVY2/EX5wXO1b16jFY6TsPV5QxfKtTjFuQ2n40Fo4zgjVy7r2I28LuC3t1ia1yrQsnw==
+            </property>
+            <property name="container">
+                keycloak-ping
+            </property>
+        </protocol>
+        <protocol type="MERGE3"/>
+        <protocol type="FD_SOCK" socket-binding="jgroups-udp-fd"/>
+        <protocol type="FD"/>
+        <protocol type="VERIFY_SUSPECT"/>
+        <protocol type="pbcast.NAKACK2">
+            <property name="use_mcast_xmit">
+                false
+            </property>
+            <property name="use_mcast_xmit_req">
+                false
+            </property>
+        </protocol>
+        <protocol type="UNICAST3"/>
+        <protocol type="pbcast.STABLE"/>
+        <protocol type="pbcast.GMS"/>
+        <protocol type="UFC"/>
+        <protocol type="FRAG2"/>
+    </stack>
             </stacks>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:jmx:1.3">
@@ -530,7 +566,7 @@
             <buffer-cache name="default"/>
             <server name="default-server">
                 <ajp-listener name="ajp" socket-binding="ajp"/>
-                <http-listener name="default" socket-binding="http" redirect-socket="proxy-https" enable-http2="true" proxy-address-forwarding="true" />
+                <http-listener name="default" socket-binding="http" redirect-socket="proxy-https" proxy-address-forwarding="true" enable-http2="true"/>
                 <https-listener name="https" socket-binding="https" security-realm="ApplicationRealm" enable-http2="true"/>
                 <host name="default-host" alias="localhost">
                     <location name="/" handler="welcome-content"/>
@@ -548,7 +584,9 @@
         <subsystem xmlns="urn:jboss:domain:keycloak-server:1.1">
             <web-context>auth</web-context>
             <providers>
-                <provider>classpath:${jboss.home.dir}/providers/*</provider>
+                <provider>
+                    classpath:${jboss.home.dir}/providers/*
+                </provider>
             </providers>
             <master-realm-name>master</master-realm-name>
             <scheduled-task-interval>900</scheduled-task-interval>
@@ -632,7 +670,7 @@
         <socket-binding name="ajp" port="${jboss.ajp.port:8009}"/>
         <socket-binding name="http" port="${jboss.http.port:8080}"/>
         <socket-binding name="https" port="${jboss.https.port:8443}"/>
-        <socket-binding name="proxy-https" port="443" />
+        <socket-binding name="proxy-https" port="443"/>
         <socket-binding name="jgroups-mping" interface="private" port="0" multicast-address="${jboss.default.multicast.address:230.0.0.4}" multicast-port="45700"/>
         <socket-binding name="jgroups-tcp" interface="private" port="7600"/>
         <socket-binding name="jgroups-udp" interface="private" port="55200" multicast-address="${jboss.default.multicast.address:230.0.0.4}" multicast-port="45688"/>
