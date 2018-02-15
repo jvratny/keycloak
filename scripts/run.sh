@@ -1,0 +1,1 @@
+./../bin/standalone.sh -b $(hostname -I | cut -d" " -f 1) -bprivate $(hostname -I | cut -d" " -f 1) --server-config=standalone-ha.xml

@@ -1,1 +1,0 @@
-@reboot root nohup /home/ew_admin/bin/keycloak/bin/standalone.sh -b 10.0.0.4 -bprivate 10.0.0.4 --server-config=standalone-ha.xml >> /home/ew_admin/cron.keyclaok.log &
