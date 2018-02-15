@@ -1,3 +1,5 @@
 /standalone/data/
 
 /standalone/log/
+
+/standalone/configuration/application.keystore

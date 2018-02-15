@@ -13,7 +13,15 @@
 					    <div class="inner" >
                 <div class="top">
 							    <p>
-
+<#if realm.password && social.providers??>
+            <div id="kc-social-providers">
+                <ul>
+                    <#list social.providers as p>
+                        <li><a href="${p.loginUrl}" id="zocial-${p.alias}" class="zocial ${p.providerId}"> <span class="text">${p.displayName}</span></a></li>
+                    </#list>
+                </ul>
+            </div>
+        </#if>
         <#if realm.password>
             <form id="kc-form-login" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
                 <label for="_LoginName" class="${properties.kcLabelClass!}"><#if !realm.loginWithEmailAllowed>${msg("username")}<#elseif !realm.registrationEmailAsUsername>${msg("usernameOrEmail")}<#else>${msg("email")}</#if></label>
@@ -32,8 +40,25 @@
                    &nbsp;
                     <span id="rfvLoginPassword" class="error" style="color:Red;display:none;">*</span>
 							    </p>
-                  <p id="PortalChoose">
-           </p>
+							    <p>
+
+                        <#if realm.rememberMe && !usernameEditDisabled??>
+                            <div class="checkbox">
+                        <label for="rememberMe" class="text">${msg("rememberMe")}</label>
+                                    <#if login.rememberMe??>
+                                        <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox" tabindex="3" checked> 
+                                    <#else>
+                                        <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox" tabindex="3">
+                                    </#if>
+                            </div>
+							    </p>
+							    <p>
+                        </#if>
+                            <#if realm.resetPasswordAllowed>
+                        <label for="rememberMe" class="text">&nbsp;</label>
+                                <span><a tabindex="5" href="${url.loginResetCredentialsUrl}" class="text">${msg("doForgotPassword")}</a></span>
+                            </#if>
+							    </p>
 							    <p>
                     <span class="inline-btn btn-blue-light">
                             <input tabindex="4" class="link-button" name="login" id="ButtonLogin" type="submit" value="${msg("doLogIn")}"/>
@@ -54,22 +79,7 @@
 
                 <div class="${properties.kcFormGroupClass!}">
                     <div id="kc-form-options" class="${properties.kcFormOptionsClass!}">
-                        <#if realm.rememberMe && !usernameEditDisabled??>
-                            <div class="checkbox">
-                                <label>
-                                    <#if login.rememberMe??>
-                                        <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox" tabindex="3" checked> ${msg("rememberMe")}
-                                    <#else>
-                                        <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox" tabindex="3"> ${msg("rememberMe")}
-                                    </#if>
-                                </label>
-                            </div>
-                        </#if>
-                        <div class="${properties.kcFormOptionsWrapperClass!}">
-                            <#if realm.resetPasswordAllowed>
-                                <span><a tabindex="5" href="${url.loginResetCredentialsUrl}">${msg("doForgotPassword")}</a></span>
-                            </#if>
-                        </div>
+                        
                     </div>
 
                 </div>
@@ -88,14 +98,6 @@
             </div>
         </#if>
 
-        <#if realm.password && social.providers??>
-            <div id="kc-social-providers">
-                <ul>
-                    <#list social.providers as p>
-                        <li><a href="${p.loginUrl}" id="zocial-${p.alias}" class="zocial ${p.providerId}"> <span class="text">${p.displayName}</span></a></li>
-                    </#list>
-                </ul>
-            </div>
-        </#if>
+        
     </#if>
 </@layout.registrationLayout>

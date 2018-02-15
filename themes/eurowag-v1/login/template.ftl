@@ -18,7 +18,6 @@
 <link href="https://clients.eurowag.com/css/content.css?260420171847" type="text/css" rel="stylesheet" media="screen,projection" />
 	<link href="https://clients.eurowag.com/css/login.css?120720171821" type="text/css" rel="stylesheet" media="screen,projection" />
 
-
     <#if properties.scripts?has_content>
         <#list properties.scripts?split(' ') as script>
             <script src="${url.resourcesPath}/${script}" type="text/javascript"></script>
